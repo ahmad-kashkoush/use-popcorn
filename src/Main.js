@@ -1,26 +1,18 @@
 import { useState } from "react";
 import { tempWatchedData, average } from "./App";
-export function Main({ movies }) {
-    const [watched, setWatched] = useState(tempWatchedData);
+export function Main({ children }) {
+
     return (
         <main className="main">
-            <ListBox movies={movies} />
-            <ListBox movies={watched}>
-                <Summary movies={watched} />
-            </ListBox>
+            {children}
         </main>);
 }
-export function ListBox({ movies, children }) {
+export function ListBox({ children }) {
     const [isOpen, setIsOpen] = useState(true);
     return (
         <div className="box">
             <ToggleButton isOpen={isOpen} onToggle={() => setIsOpen((open => !open))} />
-            {isOpen && (
-                <>
-                    {children}
-                    <MoviesList movies={movies} />
-                </>
-            )}
+            {isOpen && children}
         </div>
     );
 }
@@ -38,7 +30,7 @@ export function MoviesList({ movies }) {
 }
 function Movie({ movie }) {
     return (
-        <li key={movie.imdbID}>
+        <li>
             <img src={movie.Poster} alt={`${movie.Title} poster`} />
             <h3>{movie.Title}</h3>
             <div>
@@ -71,7 +63,7 @@ function ToggleButton({ isOpen, onToggle }) {
 }
 
 
-function Summary({ movies }) {
+export default function Summary({ movies }) {
     const avgImdbRating = average(movies.map((movie) => movie.imdbRating));
     const avgUserRating = average(movies.map((movie) => movie.userRating));
     const avgRuntime = average(movies.map((movie) => movie.runtime));

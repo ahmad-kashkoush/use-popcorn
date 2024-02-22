@@ -1,23 +1,21 @@
 import { useState } from "react";
 
-export function Navbar({ numOfMovies }) {
+export function Navbar({ children }) {
     return (
         <nav className="nav-bar">
-            <Logo />
-            <SearchBar />
-            <NumResults numOfMovies={numOfMovies} />
+            {children}
         </nav>);
 }
 
 
-function NumResults({ numOfMovies }) {
+export function NumResults({ numOfMovies }) {
     return (
         <p className="num-results">
             Found <strong>{numOfMovies}</strong> results
         </p>
     );
 }
-function Logo() {
+export function Logo() {
     return (
         <div className="logo">
             <span role="img">🍿</span>
@@ -25,7 +23,7 @@ function Logo() {
         </div>
     );
 }
-function SearchBar() {
+export function SearchBar() {
 
     const [query, setQuery] = useState("");
     return (
