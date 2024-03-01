@@ -26,7 +26,12 @@ export default function StarRating({
 }) {
     const [rating, setRating] = useState(defaultRating);
     const [tempRating, setTempRating] = useState(defaultRating);
-
+    const [rating, setRating] = useState(defaultRating);
+    console.log(`rating: ${rating}`);
+    // setRating(50);// Can't do it this way
+    useEffect(function () {
+        setRating(50);
+    })
     const textStyle = {
         fontSize: `${size}px`,
         color,
