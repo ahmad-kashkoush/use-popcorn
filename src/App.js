@@ -56,6 +56,12 @@ export default function App() {
 
   const [movies, setMovies] = useState(tempMovieData);
   const [watched, setWatched] = useState(tempWatchedData);
+  useEffect((async function(){
+      let res=await fetch(`https://www.omdbapi.com/?i=tt3896198&apikey=${key}&s="interstellar"`)
+      res=await res.json();
+      setMovies(res.Search);
+    })())
+
   return (
     <>
       <Navbar>
