@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Logo, Navbar, NumResults, SearchBar } from "./Navbar";
 import Summary, { ListBox, Main, MoviesList } from "./Main";
 
@@ -52,9 +52,10 @@ export const tempWatchedData = [
 export const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
+const key="a18f169d";
 export default function App() {
 
-  const [movies, setMovies] = useState(tempMovieData);
+  const [movies, setMovies] = useState();
   const [watched, setWatched] = useState(tempWatchedData);
   useEffect((async function(){
       let res=await fetch(`https://www.omdbapi.com/?i=tt3896198&apikey=${key}&s="interstellar"`)

@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProbTypes from "prop-types";
+
 const containerStyle = {
     alignItems: 'center',
     display: 'flex',
@@ -24,7 +25,6 @@ export default function StarRating({
     defaultRating = 3,
 
 }) {
-    const [rating, setRating] = useState(defaultRating);
     const [tempRating, setTempRating] = useState(defaultRating);
     const [rating, setRating] = useState(defaultRating);
     console.log(`rating: ${rating}`);
