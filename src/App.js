@@ -52,16 +52,31 @@ export const tempWatchedData = [
 export const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-const key="a18f169d";
+const key = "a18f169d";
 export default function App() {
 
-  const [movies, setMovies] = useState();
+  const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState(tempWatchedData);
-  useEffect((async function(){
-      let res=await fetch(`https://www.omdbapi.com/?i=tt3896198&apikey=${key}&s="interstellar"`)
-      res=await res.json();
-      setMovies(res.Search);
-    })())
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(function () {
+    (async function () {
+      try {
+        setIsLoading(true)
+        let res = await fetch(`https://www.omdbapi.com/?apikey=${key}&s="interstellar"`);
+        if (!res.ok)
+          throw new Error("Failed Internet Connection");
+        res = await res.json();
+        setMovies(res.Search);
+      } catch (e) {
+        console.log(e.message);
+        setErrorMessage("I Hate My Life");
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, []);
 
   return (
     <>
@@ -72,7 +87,10 @@ export default function App() {
       </Navbar>
       <Main>
         <ListBox>
-          <MoviesList movies={movies} />
+          {isLoading && <Loader />}
+          {!errorMessage && !isLoading && <MoviesList movies={movies} />}
+          {!isLoading && errorMessage && <Error msg={errorMessage} />}
+
         </ListBox>
         <ListBox>
           <Summary movies={watched} />
@@ -84,3 +102,9 @@ export default function App() {
   );
 }
 
+function Loader({ children }) {
+  return (<p className="loader">Loading...</p>);
+}
+function Error({ msg }) {
+  return (<p className="error">🛑{msg}</p>);
+}
