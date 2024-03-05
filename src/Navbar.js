@@ -23,15 +23,14 @@ export function Logo() {
         </div>
     );
 }
-export function SearchBar() {
-
-    const [query, setQuery] = useState("");
+export function SearchBar({query, onChange}) {
+    
     return (
         < input
             className="search"
             type="text"
             placeholder="Search movies..."
             value={query}
-            onChange={(e) => setQuery(e.target.value)} />
+            onChange={(e) => onChange(e.target.value)} />
     );
 }
