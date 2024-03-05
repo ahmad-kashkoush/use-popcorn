@@ -54,7 +54,7 @@ export const average = (arr) =>
 
 const key = "a18f169d";
 export default function App() {
-
+  const [query, setQuery] = useState("seven");
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState(tempWatchedData);
   const [isLoading, setIsLoading] = useState(false);
@@ -64,25 +64,32 @@ export default function App() {
     (async function () {
       try {
         setIsLoading(true)
-        let res = await fetch(`https://www.omdbapi.com/?apikey=${key}&s="interstellar"`);
+        setErrorMessage("interneet Connection");
+        let res = await fetch(`https://www.omdbapi.com/?apikey=${key}&s="${query}`);
         if (!res.ok)
           throw new Error("Failed Internet Connection");
         res = await res.json();
+        if (res.Response === 'False')
+          throw new Error("Movie not found");
         setMovies(res.Search);
+        setErrorMessage("");
       } catch (e) {
-        console.log(e.message);
-        setErrorMessage("I Hate My Life");
+        console.log(e);
+        setErrorMessage(e.message);
       } finally {
         setIsLoading(false);
       }
     })();
-  }, []);
+  }, [query]);
 
+  function handleChangeQuery(value) {
+    setQuery(value);
+  }
   return (
     <>
       <Navbar>
         <Logo />
-        <SearchBar />
+        <SearchBar query={query} onChange={handleChangeQuery} />
         <NumResults numOfMovies={movies.length} />
       </Navbar>
       <Main>
