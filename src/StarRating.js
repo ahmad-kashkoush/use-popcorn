@@ -4,7 +4,7 @@ import ProbTypes from "prop-types";
 const containerStyle = {
     alignItems: 'center',
     display: 'flex',
-    gap: '16px'
+    gap: '10px'
 }
 const starContainerStyle = {
     display: "flex",
@@ -15,30 +15,27 @@ const starContainerStyle = {
 StarRating.propTypes = {
     maxRating: ProbTypes.number,
     size: ProbTypes.number,
-    defaultRating: ProbTypes.number
+    defaultRating: ProbTypes.number,
+    className: ProbTypes.string
 
 }
-export default function StarRating({
+export function StarRating({
     maxRating = 5,
     color = '#fcc419',
-    size = 48,
+    size = 18,
     defaultRating = 3,
+    className = "",
 
 }) {
     const [tempRating, setTempRating] = useState(defaultRating);
     const [rating, setRating] = useState(defaultRating);
-    console.log(`rating: ${rating}`);
-    // setRating(50);// Can't do it this way
-    useEffect(function () {
-        setRating(50);
-    })
     const textStyle = {
         fontSize: `${size}px`,
         color,
 
     }
     return (
-        <div style={containerStyle}>
+        <div className={className} style={containerStyle}>
             <div style={starContainerStyle}>
                 {Array.from({ length: maxRating }, (_, i) => {
                     return <Star
