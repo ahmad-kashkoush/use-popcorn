@@ -122,6 +122,40 @@ export default function App() {
     </>
   );
 }
+const changeTemp = {
+  Poster:
+    "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
+  imdbID: "tt1375666",
+  Title: "Inception",
+  Year: "2010",
+  Runtime: "207 mins",
+  imdbRating: 7.8,
+  Plot: "    Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit voluptatum ipsa aperiam nihil pariatur cum rem. Quas veritatis dolor excepturi exercitationem inventore rem facere incidunt eveniet minus, accusantium sed expedita!",
+
+}
+function MoviePreview({ movieId, onCloseMovie }) {
+  const [movie, setMovie] = useState(changeTemp);
+  useEffect(function () {
+
+    (async function () {
+      try {
+
+        const res = await fetch(`http://www.omdbapi.com/?apikey=${key}&i=${movieId}`);
+        if (!res.ok)
+          throw new Error("Internet Connection Faild");
+        const data = await res.json();
+        if (!data.Response)
+          throw new Error("Movie Not Found")
+        setMovie(data);
+        console.log(data);
+      } catch (e) {
+
+      }
+
+    }(movie))
+
+  }, [movieId])
+
 
 function Loader({ children }) {
   return (<p className="loader">Loading...</p>);
