@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Logo, Navbar, NumResults, SearchBar } from "./Navbar";
 import Summary, { ListBox, Main, MoviesList } from "./Main";
-
+import { StarRating } from "./StarRating";
 const tempMovieData = [
   {
     imdbID: "tt1375666",
@@ -55,10 +55,11 @@ export const average = (arr) =>
 const key = "a18f169d";
 export default function App() {
   const [query, setQuery] = useState("seven");
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState(tempMovieData);
   const [watched, setWatched] = useState(tempWatchedData);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [selectedId, setSelectedId] = useState(false);
 
   useEffect(function () {
     (async function () {
@@ -85,6 +86,12 @@ export default function App() {
   function handleChangeQuery(value) {
     setQuery(value);
   }
+  function handleSelectedId(newSelectedId) {
+    setSelectedId((id) => id === newSelectedId ? null : newSelectedId);
+  }
+  function handleCloseMovieDetail() {
+    setSelectedId(null);
+  }
   return (
     <>
       <Navbar>
@@ -95,14 +102,21 @@ export default function App() {
       <Main>
         <ListBox>
           {isLoading && <Loader />}
-          {!errorMessage && !isLoading && <MoviesList movies={movies} />}
+          {!errorMessage && !isLoading && <MoviesList movies={movies} preview={selectedId} onClickPreview={handleSelectedId} />}
           {!isLoading && errorMessage && <Error msg={errorMessage} />}
 
         </ListBox>
-        <ListBox>
-          <Summary movies={watched} />
-          <MoviesList movies={watched} />
-        </ListBox>
+        {
+          !selectedId
+            ?
+            <ListBox>
+              <Summary movies={watched} />
+              <MoviesList movies={watched} />
+            </ListBox>
+            : <ListBox>
+              <MoviePreview movieId={selectedId} onCloseMovie={handleCloseMovieDetail} />
+            </ListBox>
+        }
       </Main>
 
     </>
