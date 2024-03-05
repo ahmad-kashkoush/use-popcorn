@@ -156,6 +156,29 @@ function MoviePreview({ movieId, onCloseMovie }) {
 
   }, [movieId])
 
+  return (
+    <div className="details">
+      <header >
+        <button className="btn-back" onClick={onCloseMovie}>&larr;</button>
+        <img src={movie.Poster} />
+        <div>
+          <h2>{movie.Title}</h2>
+          <span>{movie.Year}-</span>
+          <span>{movie.Runtime}</span>
+          <p>{movie.Genre}</p>
+          <p> ⭐ {movie.imdbRating} Imdb Rating</p>
+        </div>
+      </header>
+      <section>
+        <div className="rating">
+          <StarRating maxRating={10} size={24} />
+        </div>
+        <p>{movie.Plot}</p>
+      </section>
+
+
+    </div>)
+}
 
 function Loader({ children }) {
   return (<p className="loader">Loading...</p>);
