@@ -339,7 +339,8 @@ body {
   justify-content: center;
 }
 
-.box, .list{
+.box,
+.list {
   overflow: auto;
 }
 /*

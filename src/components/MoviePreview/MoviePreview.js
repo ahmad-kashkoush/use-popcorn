@@ -22,7 +22,7 @@ export function MoviePreview({ movieId, onCloseMovie, onAddWatched, watched }) {
       imdbRating, imdbID, poster, userRating: userRating
     };
     onAddWatched(newWatchedMovie);
-    console.log(newWatchedMovie);
+    // console.log(newWatchedMovie);
     onCloseMovie();
   }
   // function handleRemove() {
