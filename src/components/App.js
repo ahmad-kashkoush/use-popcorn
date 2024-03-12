@@ -66,11 +66,14 @@ export default function App() {
   const [selectedId, setSelectedId] = useState(null);
 
   useEffect(function () {
+    const conroller = new AbortController();
     async function fetchMoviesData() {
       try {
+
         setIsLoading(true)
         setErrorMessage("interneet Connection");
-        let res = await fetch(`https://www.omdbapi.com/?apikey=${key}&s="${query}`);
+        let res = await fetch(`https://www.omdbapi.com/?apikey=${key}&s="${query}`,
+          { signal: conroller.signal });
         if (!res.ok)
           throw new Error("Failed Internet Connection");
         res = await res.json();
@@ -88,6 +91,9 @@ export default function App() {
       setErrorMessage("");
     }
     fetchMoviesData();
+    return function () {
+      conroller.abort();
+    }
   }, [query]);
 
   function handleChangeQuery(value) {
