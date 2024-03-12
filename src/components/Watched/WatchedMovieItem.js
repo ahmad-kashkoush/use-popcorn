@@ -1,4 +1,10 @@
 export function WatchedMovieItem({ movie, onClickPreview, onClickDelete }) {
+  function handleClick(e) {
+    const ele = e.target.closest('.btn-delete');
+    if (ele) onClickDelete(movie.imdbID);
+    else onClickPreview(movie.imdbID);
+    // console.log(ele);
+  }
   return (
     <li onClick={handleClick}>
       <img src={movie.poster} alt={`${movie.title} poster`} />
