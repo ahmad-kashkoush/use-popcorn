@@ -57,7 +57,27 @@ export function MoviePreview({ movieId, onCloseMovie, onAddWatched, watched }) {
   useEffect(function () {
     if (!title) return;
     document.title = `Movie: ${title}`;
+    // cleanup function
+    return function () {
+      document.title = `usePopcorn`;
+      // title will be remembered despite of componenet being unmounted
+      // this will happen because of closure
+      // console.log(`returning from Movie${title}`);
+    }
   }, [title]);
+  // add close movie preview on escape key
+  useEffect(function () {
+    const handleEscapeKey = function (e) {
+      if (e.code === 'Escape') {
+        onCloseMovie();
+        // console.log('escape');
+      }
+    }
+    document.addEventListener('keydown', handleEscapeKey);
+    return function () {
+      document.removeEventListener('keydown', handleEscapeKey);
+    }
+  }, [onCloseMovie]);
   return <>
     {isLoading ? <Loader />
       : <div className="details">
