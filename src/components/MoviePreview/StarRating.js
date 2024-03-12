@@ -25,6 +25,7 @@ export function StarRating({
     size = 18,
     defaultRating = 3,
     className = "",
+    onSetRating
 
 }) {
     const [tempRating, setTempRating] = useState(defaultRating);
@@ -34,6 +35,10 @@ export function StarRating({
         color,
 
     }
+    function handleSetRating(value) {
+        setRating(value);
+        onSetRating(value);
+    }
     return (
         <div className={className} style={containerStyle}>
             <div style={starContainerStyle}>
@@ -41,7 +46,7 @@ export function StarRating({
                     return <Star
                         key={i}
                         full={(tempRating && i + 1 <= tempRating) || (!tempRating && i + 1 <= rating)}
-                        onClick={() => setRating(i + 1)}
+                        onClick={() => handleSetRating(i + 1)}
                         onMouseEnter={() => setTempRating(i + 1)}
                         onMouseLeave={() => setTempRating(0)}
                         color={color}
